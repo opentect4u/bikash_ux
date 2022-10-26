@@ -1,0 +1,184 @@
+<ion-content class="ion-no-padding loginWrapper">
+  <div class="logInCardHeader">
+    <img src="../../../assets/logo/logo.png" alt="WBSCARDB LTD">
+    <h4>Welcome To WBSCARDB</h4>
+  </div>
+
+  <div class="logInCard">
+    <app-common-segment [galleryType]="galleryType" (tabValue)="reset($event)"></app-common-segment>
+    <div [ngSwitch]="galleryType" class="ion-margin-vertical">
+      <ion-grid *ngSwitchCase="'L'">
+        <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+          <ion-list>
+            <ion-item class="ion-margin-vertical">
+              <ion-label>+91</ion-label>
+              <ion-input inputmode="numeric" formControlName="user_id" type="text" maxlength="10"
+                placeholder="Enter Mobile Number" (keypress)="preventNonNumeric($event)"></ion-input>
+              <ion-icon name="call-outline" slot="end"></ion-icon>
+            </ion-item>
+            <ion-label
+              *ngIf="signInForm.get('user_id').invalid && (signInForm.get('user_id').dirty ||signInForm.get('user_id').touched)">
+              <ion-note color="danger" *ngIf="(signInForm.get('user_id')).errors?.required">*Please Provide Phone Number
+              </ion-note>
+              <ion-note color="danger" *ngIf="(signInForm.get('user_id')).errors?.pattern">*Please Provide Valid Phone
+                Number</ion-note>
+            </ion-label>
+            <ion-item class="ion-margin-vertical">
+              <ion-input formControlName="pass" (keydown.space)="$event.preventDefault();"
+                [type]="isText ? 'text' : 'password'" placeholder="Enter Password">
+              </ion-input>
+              <ion-icon [name]="!isText ? 'lock-closed-outline' : 'lock-open-outline'" slot="end"
+                (click)="isText=!isText"></ion-icon>
+            </ion-item>
+            <ion-label
+              *ngIf="signInForm.get('pass').invalid && (signInForm.get('pass').dirty ||signInForm.get('pass').touched)">
+              <ion-note color="danger" *ngIf="(signInForm.get('pass')).errors?.required">*Please Provide Password
+              </ion-note>
+            </ion-label>
+          </ion-list>
+          <ion-row>
+            <ion-col size="12" size-md="12" size-xl="6" class="ion-text-right">
+              <a>Forgot Password?</a>
+            </ion-col>
+            <ion-col size="12" size-md="12" size-xl="6">
+              <ion-button [disabled]="signInForm.invalid" expand="block" type="submit" color="success">Sign In
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-grid>
+      <ion-grid *ngSwitchCase="'R'">
+        <form [formGroup]="signUpForm" (ngSubmit)="signUp()" *ngIf="step === 1 ||  step === 3">
+          <ng-container *ngIf="step === 1">
+            <ion-list>
+              <ion-item class="ion-margin-vertical">
+                <ion-label>+91</ion-label>
+                <ion-input inputmode="numeric" formControlName="phone" type="text" maxlength="10"
+                  placeholder="Enter Mobile Number" (keypress)="preventNonNumeric($event)">
+                </ion-input>
+                <ion-icon name="call-outline" slot="end"></ion-icon>
+              </ion-item>
+              <ion-label
+                *ngIf="signUpForm.get('phone').invalid && (signUpForm.get('phone').dirty ||signUpForm.get('phone').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('phone')).errors?.required">*Phone number is required
+                </ion-note>
+                <ion-note color="danger" *ngIf="(signUpForm.get('phone')).errors?.pattern">*Please provide valid phone
+                  number</ion-note>
+              </ion-label>
+            </ion-list>
+
+          </ng-container>
+
+          <ng-container *ngIf="step === 3">
+            <ion-list>
+              <ion-item>
+                <!-- <ion-label>Select ARDB</ion-label> -->
+                <ion-select formControlName="ardb" okText="Ok" cancelText="Cancel" >
+                  <ion-select-option value="">--Select ARDB--</ion-select-option>
+                  <ion-select-option [value]="ardbs.ardb_code" *ngFor="let ardbs of ardbList">{{ardbs.ardb_name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-label
+                *ngIf="signUpForm.get('ardb').invalid && (signUpForm.get('ardb').dirty ||signUpForm.get('ardb').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('ardb')).errors?.required">*Please Select ARDB
+                </ion-note>
+              </ion-label>
+
+              <ion-item>
+                <ion-input formControlName="name" type="text" placeholder="Enter Name"></ion-input>
+                <ion-icon name="person-outline"></ion-icon>
+              </ion-item>
+              <ion-label
+                *ngIf="signUpForm.get('name').invalid && (signUpForm.get('name').dirty ||signUpForm.get('name').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('name')).errors?.required">*Please Provide Name
+                </ion-note>
+                <ion-note color="danger" *ngIf="(signUpForm.get('name')).errors?.minlength">*minimum 4 character allowed
+                </ion-note>
+              </ion-label>
+              <ion-item >
+                <ion-input (keydown.space)="$event.preventDefault();" formControlName="email" type="email"
+                  placeholder="Enter Email"></ion-input>
+                <ion-icon name="mail-outline"></ion-icon>
+              </ion-item>
+              <ion-label
+                *ngIf="signUpForm.get('email').invalid && (signUpForm.get('email').dirty ||signUpForm.get('email').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('email')).errors?.email">*Please Provide Valid Email
+                </ion-note>
+              </ion-label>
+              <ion-item >
+                <ion-input (keydown.space)="$event.preventDefault();" formControlName="password"
+                  [type]="isPass ? 'text' : 'password'" placeholder="Enter Password"></ion-input>
+                <ion-icon [name]="!isPass ? 'lock-closed-outline' : 'lock-open-outline'" slot="end"
+                  (click)="isPass=!isPass"></ion-icon>
+              </ion-item>
+              <ion-label
+                *ngIf="signUpForm.get('password').invalid && (signUpForm.get('password').dirty ||signUpForm.get('password').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('password')).errors?.required">*Please Provide Password
+                </ion-note>
+              </ion-label>
+              <ion-item >
+                <ion-input (keydown.space)="$event.preventDefault();" formControlName="confpassword"
+                  [type]="isConfPass ? 'text' : 'password'" placeholder="Enter Confirm Password"></ion-input>
+                <ion-icon [name]="!isConfPass ? 'lock-closed-outline' : 'lock-open-outline'" slot="end"
+                  (click)="isConfPass=!isConfPass"></ion-icon>
+              </ion-item>
+              <ion-label
+                *ngIf="signUpForm.get('confpassword').invalid && (signUpForm.get('confpassword').dirty ||signUpForm.get('confpassword').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('confpassword')).errors?.required">*Please Provide
+                  Confirm
+                  Password</ion-note>
+                <ion-note color="danger" *ngIf="(signUpForm.get('confpassword')).errors?.mustMatch">Password And Confirm
+                  Password not match</ion-note>
+              </ion-label>
+            </ion-list>
+          </ng-container>
+          <ion-row>
+            <ion-col size="12" size-md="12" size-xl="6">
+              <ion-button
+                [disabled]="signUpForm.get('phone').hasError('pattern') || signUpForm.get('phone').hasError('required')"
+                *ngIf="step === 1" expand="block" type="submit" color="success">Send OTP</ion-button>
+              <ion-button [disabled]="signUpForm.invalid" *ngIf="step === 3" expand="block" type="submit"
+                color="success">
+                Sign Up</ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+
+        <ng-container>
+          <form [hidden]="step !== 2" [formGroup]="signUpForm">
+            <ion-list>
+              <ion-item lines="none" class="ion-text-center">
+                <ion-label color="success">A OTP has been sent to +91 {{signUpForm.get('phone').value}}</ion-label>
+              </ion-item>
+              <div>
+                <ng-otp-input #ngOtpInput [config]="{length:4,allowNumbersOnly:true}"
+                  (onInputChange)="otpChange($event)"></ng-otp-input>
+              </div>
+
+              <ion-item lines="none">
+                <ion-label *ngIf="this.timer > 0">{{time | async}}</ion-label>
+                <ion-buttons slot="end">
+                  <ion-button [disabled]="this.timer > 0" (click)="setTimer(2)">
+                    RESEND OTP
+                  </ion-button>
+                </ion-buttons>
+
+              </ion-item>
+            </ion-list>
+            <ion-row class="ion-margin-vertical">
+              <ion-col size="12" size-md="12" size-xl="6">
+                <ion-button expand="block" color="success" (click)="signUp()"
+                  [disabled]="signUpForm.get('otp').hasError('required') || signUpForm.get('otp').hasError('minlength')">
+                  Verify</ion-button>
+              </ion-col>
+            </ion-row>
+
+          </form>
+
+
+        </ng-container>
+
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

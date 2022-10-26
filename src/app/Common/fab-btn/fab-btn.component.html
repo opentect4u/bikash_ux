@@ -1,0 +1,11 @@
+
+ <ion-fab [vertical]="vl" [horizontal]="hl" slot="fixed" >
+  <ion-fab-button size="large">
+    <ion-icon name="caret-up"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top"  size="large">
+    <ion-fab-button (click)="logout()"><ion-icon name="power"></ion-icon></ion-fab-button>
+    <ion-fab-button (click)="routeToPage()"><ion-icon name="create-outline"></ion-icon></ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+

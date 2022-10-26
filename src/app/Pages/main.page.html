@@ -1,0 +1,10 @@
+<ion-tabs >
+  <ion-tab-bar slot="bottom" >
+    <ion-tab-button [tab]="menus.tab" *ngFor="let menus of menu">
+      <ion-icon [name]="menus.icon"></ion-icon>
+      <ion-label>{{menus.label}}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+

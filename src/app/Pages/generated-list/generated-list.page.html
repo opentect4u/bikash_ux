@@ -1,0 +1,226 @@
+<app-common-header
+[title]="'Lists'"
+[showSearchBar]="'Y'"
+(searchInput)="getList($event)"></app-common-header>
+<ion-content class="wrapper">
+  <div class="loanHolderList">
+    <app-common-list [loanList]="list" [mode]="'L'" (lnDT)="openModal($event)"></app-common-list>
+  </div>
+  <ion-infinite-scroll
+  threshold="10px"
+  (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+    class="loadingspinner"
+    loadingSpinner="circular">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title color="success">Details</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="this.isModalOpen=!this.isModalOpen">
+              <ion-icon name="close-sharp" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-no-padding">
+         <ion-grid>
+           <ion-row>
+             <ion-col size="12">
+               <ion-item>
+                 <ion-label>
+                   <h2>Loan Type</h2>
+                   <p>{{lndetails?.loan_acc_name}}</p>
+                 </ion-label>
+               </ion-item>
+             </ion-col>
+             <ion-col size="12">
+              <ion-item>
+                <ion-label>
+                  <h2>Name</h2>
+                  <p>{{lndetails?.cust_name}}</p>
+                </ion-label>
+              </ion-item>
+             </ion-col>
+             <ion-col size="12">
+              <ion-item>
+                <ion-label>
+                  <h2>Sector</h2>
+                  <p>{{lndetails?.sector}}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+             <ion-item>
+               <ion-label>
+                 <h2>Activity</h2>
+                 <p>{{lndetails?.activity}}</p>
+               </ion-label>
+             </ion-item>
+            </ion-col>
+            <ion-col size="6">
+             <ion-item>
+               <ion-label>
+                 <h2>LF NO.</h2>
+                 <p>{{lndetails?.lf_no}}</p>
+               </ion-label>
+             </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label>
+                  <h2>Loan Amount</h2>
+                  <p>{{lndetails?.disb_amt | currency:'INR'}}</p>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label>
+                  <h2>Import Date</h2>
+                  <p>{{lndetails?.data_imp_dt | date:'dd/MM/YYYY HH:mma'}}</p>
+                </ion-label>
+              </ion-item>
+             </ion-col>
+             <ion-col size="6">
+               <ion-item>
+                 <ion-label>
+                   <h2>Interest Upto</h2>
+                   <p>{{lndetails?.last_intt_calc_dt | date:'dd/MM/YYYY'}}</p>
+                 </ion-label>
+               </ion-item>
+             </ion-col>
+           </ion-row>
+         </ion-grid>
+          <ion-toolbar color="light">
+            <ion-title color="success">BALANCE</ion-title>
+          </ion-toolbar>
+          <ion-grid >
+            <ion-row>
+              <ion-col size="6">
+                 <ion-item>
+                   <ion-label>
+                     <h2>Curr Prn</h2>
+                     <p>{{lndetails?.curr_prn | currency:'INR'}}</p>
+                    </ion-label>
+                 </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>
+                    <h2>Ovd Prn</h2>
+                    <p>{{lndetails?.ovd_prn | currency:'INR'}}</p>
+                   </ion-label>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>
+                    <h2>Cur Int</h2>
+                    <p>{{lndetails?.curr_intt | currency:'INR'}}</p>
+                   </ion-label>
+                </ion-item>
+             </ion-col>
+             <ion-col size="6">
+               <ion-item>
+                 <ion-label>
+                   <h2>Ovd Int</h2>
+                   <p>{{lndetails?.ovd_intt | currency:'INR'}}</p>
+                  </ion-label>
+               </ion-item>
+             </ion-col>
+             <ion-col size="12">
+               <ion-item>
+                 <ion-label>
+                   <h2>Penal Int</h2>
+                   <p>{{lndetails?.penal_intt | currency:'INR'}}</p>
+                 </ion-label>
+               </ion-item>
+             </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-toolbar color="light">
+            <ion-title  color="success">DEMAND</ion-title>
+          </ion-toolbar>
+          <ion-grid >
+            <ion-row>
+              <ion-col size="6">
+                 <ion-item>
+                   <ion-label>
+                     <h2>Curr Prn</h2>
+                     <p>{{lndetails?.curr_prn_demand | currency:'INR'}}</p>
+                    </ion-label>
+                 </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>
+                    <h2>Ovd Prn</h2>
+                    <p>{{lndetails?.ovd_prn_demand | currency:'INR'}}</p>
+                   </ion-label>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label>
+                    <h2>Cur Int</h2>
+                    <p>{{lndetails?.curr_intt_demand | currency:'INR'}}</p>
+                   </ion-label>
+                </ion-item>
+             </ion-col>
+             <ion-col size="6">
+               <ion-item>
+                 <ion-label>
+                   <h2>Ovd Int</h2>
+                   <p>{{lndetails?.ovd_intt_demand | currency:'INR'}}</p>
+                  </ion-label>
+               </ion-item>
+             </ion-col>
+             <ion-col size="12">
+               <ion-item>
+                 <ion-label>
+                   <h2>Penal Int</h2>
+                   <p>{{lndetails?.penal_intt_demand | currency:'INR'}}</p>
+                 </ion-label>
+               </ion-item>
+             </ion-col>
+
+             <ion-col size="12">
+                 <ion-item>
+                   <ion-label [color]="lndetails?.paid_flag === 'Y' ? 'success' : 'dark'"><h2>Paid </h2></ion-label>
+                   <ion-toggle
+                   color="success"
+                   [disabled]="lndetails?.paid_flag === 'Y'"
+                   [checked]="lndetails?.paid_flag === 'Y'"
+                   (ionChange)="change($event)">
+                  </ion-toggle>
+                 </ion-item>
+                 <ion-item *ngIf="this.isPaid === 'Y'">
+                  <ion-label position="floating">Paid Amount</ion-label>
+                  <ion-input type="number" inputmode="decimal" placeholder="Enter Amount" [(ngModel)]="paidAmt" ></ion-input>
+                 </ion-item>
+             </ion-col>
+             <ion-col size="12">
+               <ion-button
+               color="success"
+               expand="block"
+               fill="solid"
+               [disabled]="
+               this.isPaid === 'N'
+               || (paidAmt === 0
+               || paidAmt === null)"
+               (click)="checkPaid()">Save</ion-button>
+             </ion-col>
+            </ion-row>
+          </ion-grid>
+
+
+      </ion-content>
+      </ng-template>
+  </ion-modal>
+
+</ion-content>
