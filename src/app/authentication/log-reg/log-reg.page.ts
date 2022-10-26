@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoaderService } from 'src/app/Service/loader.service';
@@ -53,13 +54,17 @@ export class LogRegPage{
   }
   setSignUpForm(){
     this.signUpForm = new FormGroup({
-      phone:new FormControl('',[Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]),
+      user_id:new FormControl('',[Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]),
       password:new FormControl('',Validators.required),
-      email:new FormControl('',[Validators.email]),
-      ardb:new FormControl('',[Validators.required]),
-      name:new FormControl('',[Validators.required,Validators.minLength(4)]),
+      email_id:new FormControl('',[Validators.email]),
+      ardb_id:new FormControl('',[Validators.required]),
+      user_name:new FormControl('',[Validators.required,Validators.minLength(4)]),
       otp:new FormControl('',[Validators.required,Validators.minLength(4)]),
       confpassword:new FormControl('',Validators.required),
+      vill_id:new FormControl('0'),
+      sa_id:new FormControl('0'),
+      block_id:new FormControl('0'),
+      user:new FormControl('')
     },
     UtilityCheckPassword.mustMatch('password', 'confpassword'));
   }
@@ -119,7 +124,10 @@ export class LogRegPage{
   }
   signUpComplete(){
     console.log(this.signUpForm.value);
-   this.loader.presentToast('Registration Successfull','S');
+  //  this.loader.presentToast('Registration Successfull','S');
+  // this.dbInct.callApi(1,'Registration',this.signUpForm.value).subscribe(res =>{
+  //   console.log(res);
+  // });
    //Submit the details
  }
  reset(event){
@@ -158,6 +166,9 @@ export class LogRegPage{
 //Method called after user click on Send OTP
 
 async checkReadSmsPermission(){
+    this.signUpForm.patchValue({
+      user:this.signUpForm.value.user_id
+    });
     this.setStep(2);
     this.setTimer(2);
   /**********Demo************ */

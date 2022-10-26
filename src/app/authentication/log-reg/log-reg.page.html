@@ -53,16 +53,16 @@
             <ion-list>
               <ion-item class="ion-margin-vertical">
                 <ion-label>+91</ion-label>
-                <ion-input inputmode="numeric" formControlName="phone" type="text" maxlength="10"
+                <ion-input inputmode="numeric" formControlName="user_id" type="text" maxlength="10"
                   placeholder="Enter Mobile Number" (keypress)="preventNonNumeric($event)">
                 </ion-input>
                 <ion-icon name="call-outline" slot="end"></ion-icon>
               </ion-item>
               <ion-label
-                *ngIf="signUpForm.get('phone').invalid && (signUpForm.get('phone').dirty ||signUpForm.get('phone').touched)">
-                <ion-note color="danger" *ngIf="(signUpForm.get('phone')).errors?.required">*Phone number is required
+                *ngIf="signUpForm.get('user_id').invalid && (signUpForm.get('user_id').dirty ||signUpForm.get('user_id').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('user_id')).errors?.required">*Phone number is required
                 </ion-note>
-                <ion-note color="danger" *ngIf="(signUpForm.get('phone')).errors?.pattern">*Please provide valid phone
+                <ion-note color="danger" *ngIf="(signUpForm.get('user_id')).errors?.pattern">*Please provide valid phone
                   number</ion-note>
               </ion-label>
             </ion-list>
@@ -73,36 +73,36 @@
             <ion-list>
               <ion-item>
                 <!-- <ion-label>Select ARDB</ion-label> -->
-                <ion-select formControlName="ardb" okText="Ok" cancelText="Cancel" >
+                <ion-select formControlName="ardb_id" okText="Ok" cancelText="Cancel" >
                   <ion-select-option value="">--Select ARDB--</ion-select-option>
                   <ion-select-option [value]="ardbs.ardb_code" *ngFor="let ardbs of ardbList">{{ardbs.ardb_name}}</ion-select-option>
                 </ion-select>
               </ion-item>
               <ion-label
-                *ngIf="signUpForm.get('ardb').invalid && (signUpForm.get('ardb').dirty ||signUpForm.get('ardb').touched)">
-                <ion-note color="danger" *ngIf="(signUpForm.get('ardb')).errors?.required">*Please Select ARDB
+                *ngIf="signUpForm.get('ardb_id').invalid && (signUpForm.get('ardb_id').dirty ||signUpForm.get('ardb_id').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('ardb_id')).errors?.required">*Please Select ARDB
                 </ion-note>
               </ion-label>
 
               <ion-item>
-                <ion-input formControlName="name" type="text" placeholder="Enter Name"></ion-input>
+                <ion-input formControlName="user_name" type="text" placeholder="Enter Name"></ion-input>
                 <ion-icon name="person-outline"></ion-icon>
               </ion-item>
               <ion-label
-                *ngIf="signUpForm.get('name').invalid && (signUpForm.get('name').dirty ||signUpForm.get('name').touched)">
-                <ion-note color="danger" *ngIf="(signUpForm.get('name')).errors?.required">*Please Provide Name
+                *ngIf="signUpForm.get('user_name').invalid && (signUpForm.get('user_name').dirty ||signUpForm.get('user_name').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('user_name')).errors?.required">*Please Provide Name
                 </ion-note>
-                <ion-note color="danger" *ngIf="(signUpForm.get('name')).errors?.minlength">*minimum 4 character allowed
+                <ion-note color="danger" *ngIf="(signUpForm.get('user_name')).errors?.minlength">*minimum 4 character allowed
                 </ion-note>
               </ion-label>
               <ion-item >
-                <ion-input (keydown.space)="$event.preventDefault();" formControlName="email" type="email"
+                <ion-input (keydown.space)="$event.preventDefault();" formControlName="email_id" type="email"
                   placeholder="Enter Email"></ion-input>
                 <ion-icon name="mail-outline"></ion-icon>
               </ion-item>
               <ion-label
-                *ngIf="signUpForm.get('email').invalid && (signUpForm.get('email').dirty ||signUpForm.get('email').touched)">
-                <ion-note color="danger" *ngIf="(signUpForm.get('email')).errors?.email">*Please Provide Valid Email
+                *ngIf="signUpForm.get('email_id').invalid && (signUpForm.get('email_id').dirty ||signUpForm.get('email_id').touched)">
+                <ion-note color="danger" *ngIf="(signUpForm.get('email_id')).errors?.email">*Please Provide Valid Email
                 </ion-note>
               </ion-label>
               <ion-item >
@@ -135,7 +135,7 @@
           <ion-row>
             <ion-col size="12" size-md="12" size-xl="6">
               <ion-button
-                [disabled]="signUpForm.get('phone').hasError('pattern') || signUpForm.get('phone').hasError('required')"
+                [disabled]="signUpForm.get('user_id').hasError('pattern') || signUpForm.get('user_id').hasError('required')"
                 *ngIf="step === 1" expand="block" type="submit" color="success">Send OTP</ion-button>
               <ion-button [disabled]="signUpForm.invalid" *ngIf="step === 3" expand="block" type="submit"
                 color="success">
@@ -148,7 +148,7 @@
           <form [hidden]="step !== 2" [formGroup]="signUpForm">
             <ion-list>
               <ion-item lines="none" class="ion-text-center">
-                <ion-label color="success">A OTP has been sent to +91 {{signUpForm.get('phone').value}}</ion-label>
+                <ion-label color="success">A OTP has been sent to +91 {{signUpForm.get('user_id').value}}</ion-label>
               </ion-item>
               <div>
                 <ng-otp-input #ngOtpInput [config]="{length:4,allowNumbersOnly:true}"
