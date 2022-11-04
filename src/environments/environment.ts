@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  // apiUrl:'http://198.255.244.0/3000/api/'
+  // apiUrl:'http://192.168.1.244:3000/api/'
   apiUrl:'https://vermapi.opentech4u.co.in/api/'
 };
 

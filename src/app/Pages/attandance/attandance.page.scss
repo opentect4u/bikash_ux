@@ -1,0 +1,16 @@
+ion-card{
+  ion-card-content{
+    h2{
+      font-size: 23px;
+      margin: 22px 0;
+      font-weight: 500;
+    }
+    .card-footer{
+      .cardFooterlabel{
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ion-color-light);
+      }
+    }
+  }
+}

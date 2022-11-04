@@ -1,22 +1,24 @@
 
-import {Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LoanDtls } from 'src/app/Models/loanDtls';
 import { Locat } from 'src/app/Models/location';
-import { LoaderService } from 'src/app/Service/loader.service';
 @Component({
   selector: 'app-common-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit{
+export class ListComponent implements OnInit,AfterViewInit{
   @Input() loanList: LoanDtls[]=[];
   @Input() mode: any;
   @Input() location: Locat;
   @Output() lnDT: EventEmitter<any> = new EventEmitter();
-  constructor(private loader: LoaderService,) { }
+  isLoad = true;
+  constructor() { }
     ngOnInit() {}
-    async openModal(loanDetails) {
-     this.lnDT.emit(loanDetails);
+    async openModal(loanDetails) {this.lnDT.emit(loanDetails);}
+    ngAfterViewInit(){
+     setTimeout(() => {
+      this.isLoad =false;
+     }, 2000);
     }
 }

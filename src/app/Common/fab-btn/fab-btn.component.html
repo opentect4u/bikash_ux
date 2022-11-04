@@ -1,11 +1,21 @@
 
- <ion-fab [vertical]="vl" [horizontal]="hl" slot="fixed" >
+ <ion-fab [vertical]="vl" [horizontal]="hl" slot="fixed" *ngIf="routerDT === 2">
   <ion-fab-button size="large">
-    <ion-icon name="caret-up"></ion-icon>
+    <ion-icon name="chevron-up-outline"></ion-icon>
   </ion-fab-button>
-  <ion-fab-list side="top"  size="large">
+  <ion-fab-list side="top"  size="large" >
     <ion-fab-button (click)="logout()"><ion-icon name="power"></ion-icon></ion-fab-button>
     <ion-fab-button (click)="routeToPage()"><ion-icon name="create-outline"></ion-icon></ion-fab-button>
   </ion-fab-list>
 </ion-fab>
+
+  <ion-fab
+  [vertical]="vl"
+  [horizontal]="hl"
+  slot="fixed"
+  *ngIf="routerDT=== 6 || routerDT=== 7">
+  <ion-fab-button (click)="modalChange()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+  </ion-fab>
 

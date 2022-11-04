@@ -1,10 +1,7 @@
 <ion-segment [(ngModel)]="galleryType"
-color="primary"
+mode="md"
 (ionChange)="reset($event)">
-  <ion-segment-button value="L">
-    <ion-label>Sign In</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="R">
-    <ion-label>Sign Up</ion-label>
+  <ion-segment-button [value]="tabs.value" *ngFor="let tabs of tabLabel">
+    <ion-label>{{tabs.label}}</ion-label>
   </ion-segment-button>
 </ion-segment>

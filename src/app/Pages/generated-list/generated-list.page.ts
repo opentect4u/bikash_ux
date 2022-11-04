@@ -1,11 +1,11 @@
+import { PopOverComponent } from './../../Common/pop-over/pop-over.component';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LoanDtls } from 'src/app/Models/loanDtls';
 import { DbInteractionService } from 'src/app/Service/db-interaction.service';
 import { LoaderService } from 'src/app/Service/loader.service';
-
+import { PopoverController } from '@ionic/angular';
 @Component({
   selector: 'app-pages-generated-list',
   templateUrl: './generated-list.page.html',
@@ -13,17 +13,22 @@ import { LoaderService } from 'src/app/Service/loader.service';
 })
 export class GeneratedListPage implements OnInit {
   loanList: LoanDtls[]=[];
+  TotDemand = 0;
   filteredData: LoanDtls[]=[];
   list: LoanDtls[]=[];
   showList: any = 10;
   isModalOpen = false;
+  Total_amt = 0;
   lndetails: LoanDtls;
+  header_name: any;
+  type: any = 'T';
   isPaid = 'N';
   paidAmt = 0;
+  isSubModalopen = false;
   location: any ={lat:'',long:''};
   constructor(
+    public popoverController: PopoverController,
     private loader: LoaderService,
-    private acRT: ActivatedRoute,
     private db: DbInteractionService) {}
   ionViewWillEnter(){
     this.list = this.loanList.slice(0,this.showList);
@@ -31,9 +36,10 @@ export class GeneratedListPage implements OnInit {
   }
   ngOnInit() {}
   getList(event: string){
+    console.log(event);
     this.list = this.loanList.filter((location) =>
-    (location.lf_no.toString().toLowerCase().indexOf(event.toLowerCase()) > -1 ||
-    location.cust_name.toString().toLowerCase().indexOf(event.toLowerCase()) > -1));
+    (location?.acc_num?.toString().toLowerCase().indexOf(event.toLowerCase()) > -1 ||
+    location?.cust_name?.toString().toLowerCase().indexOf(event.toLowerCase()) > -1));
   }
   loadData(event){
     setTimeout(() =>{
@@ -48,24 +54,23 @@ export class GeneratedListPage implements OnInit {
   getLoanList(){
     const dt ={
       ardb_id:localStorage.getItem('ardb_id'),
-      block_name:this.acRT.snapshot.params.b_name,
-      sa_name:this.acRT.snapshot.params.s_name,
-      vill_name:this.acRT.snapshot.params.v_name,
+      block_name:localStorage.getItem('block_id'),
+      sa_name:localStorage.getItem('sa_id'),
+      vill_name:localStorage.getItem('vill_id'),
       cust_id:null,
       loan_acc_id:null,
       lf_no:null
     };
-    console.log(dt);
     this.db.callApi(1,'loan_data',dt).pipe(map((x: any) => x.msg)).subscribe(res =>{
-      console.log(res);
       this.loanList = res;
       this.filteredData = res;
       this.list = res.slice(0,this.showList);
+      console.log(this.loanList);
     });
   }
   openModal(event){
-    console.log(event);
     this.isModalOpen = !this.isModalOpen;
+    console.log(event);
     const dt ={
       ardb_id:event.ardb_cd,
       block_name:event.br_block_cd,
@@ -76,13 +81,26 @@ export class GeneratedListPage implements OnInit {
       lf_no:event.lf_no
     };
     this.db.callApi(1,'loan_data',dt).pipe(map((x: any) => x.msg)).subscribe(res =>{
+      this.Total_amt = 0;
+      this.TotDemand = 0;
+      console.log(res[0]);
       this.lndetails = res[0];
+      if(this.lndetails.trans_dt.length > 0){
+        this.lndetails.trans_dt.forEach(amt =>{
+             this.Total_amt +=amt.r_amt;
+        });
+       }
+       this.TotDemand = (this.lndetails.curr_prn_demand +
+                         this.lndetails.ovd_prn_demand +
+                         this.lndetails.curr_intt_demand +
+                         this.lndetails.ovd_intt_demand +
+                         this.lndetails.penal_intt_demand);
       this.isPaid = res[0]?.paid_flag;
-      this.paidAmt = res[0].r_amt ? res[0].r_amt : 0;
+      // this.paidAmt =  this.Total_amt ?  this.Total_amt : 0;
+      this.paidAmt = 0;
     });
   }
   change(event){
-    console.log(event);
     this.isPaid = event.detail.checked ? 'Y' : 'N';
   }
   async checkPaid(){
@@ -100,13 +118,11 @@ export class GeneratedListPage implements OnInit {
      this.location = await this.loader.getCurrentLocation(options);
       dt ={
        ardb_id:this.lndetails.ardb_cd,
-       block_name:this.lndetails.br_block,
-       sa_name:this.lndetails.service_area,
-       vill_name:this.lndetails.village,
+       acc_num:this.lndetails.acc_num,
        cust_id:this.lndetails.cust_cd,
        loan_acc_cd:this.lndetails.loan_acc_cd,
        r_amt:this.paidAmt ? this.paidAmt : 0,
-       user:'Suman Mitra',
+       user:localStorage.getItem('name'),
        lat_pos: this.location.coords?.latitude,
        long_pos:this.location.coords?.longitude
       };
@@ -114,13 +130,11 @@ export class GeneratedListPage implements OnInit {
      else{
      dt ={
         ardb_id:this.lndetails.ardb_cd,
-        block_name:this.lndetails.br_block,
-        sa_name:this.lndetails.service_area,
-        vill_name:this.lndetails.village,
+        acc_num:this.lndetails.acc_num,
         cust_id:this.lndetails.cust_cd,
         loan_acc_cd:this.lndetails.loan_acc_cd,
         r_amt:this.paidAmt ? this.paidAmt : 0,
-        user:'Suman Mitra',
+        user:localStorage.getItem('name'),
         lat_pos: this.location?.lat,
         long_pos:this.location?.long
     };
@@ -141,5 +155,24 @@ export class GeneratedListPage implements OnInit {
         this.loader.presentToast('Submittion Failed! Please try again later','E');
       });
     }
+  }
+  async showMenu(ev: any){
+    const popover = await this.popoverController.create({
+      component:PopOverComponent,
+      translucent: true,
+      event:ev,
+      componentProps:{data:[
+        {label:'More',value:'M'},
+        {label:'Transactions History',value:'T'}
+      ]}
+    });
+    await popover.present();
+     await popover.onDidDismiss().then((m) =>{
+        if(m.data){
+          this.type = m.data?.type;
+          this.header_name = this.type === 'M' ? 'More Details' : 'Transactions History';
+          this.isSubModalopen = !this.isSubModalopen;
+        }
+     });
   }
 }

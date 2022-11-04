@@ -1,6 +1,11 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "Bikash",
+	"appId": "io.bikash.org",
+	"appName": "বিকাশ",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+  "plugins": {
+      "SplashScreen": {
+        "launchAutoHide": false
+      }
+    }
 }

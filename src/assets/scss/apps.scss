@@ -1,0 +1,28 @@
+.cal-modal {
+  --height: 90%;
+  --border-radius: 10px;
+    padding: 5px;
+}
+
+
+//infinite scroll loader//
+.loadingspinner{
+  --color : var(--ion-color-success);
+}
+//End//
+
+//Search Bar//
+.sc-ion-searchbar-md-h{
+  --background: var(--ion-color-light-tint);
+  --box-shadow: none!important;
+}
+.searchbar-input.sc-ion-searchbar-md{
+  padding-inline-start: 44px;
+}
+//End//
+
+//Calendar//
+.monthview-datetable td{
+  line-height: 33px !important;
+}
+//End//

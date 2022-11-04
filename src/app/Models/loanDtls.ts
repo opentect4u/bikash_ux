@@ -1,3 +1,4 @@
+import { transDT } from './transaction';
 /* eslint-disable @typescript-eslint/naming-convention */
 export class LoanDtls{
   activity: string;
@@ -36,4 +37,6 @@ export class LoanDtls{
   update_dt?: any;
   village: string;
   r_amt: any;
+  acc_num: number;
+  trans_dt: transDT[];
 }

@@ -1,11 +1,11 @@
 
 
-<ion-list *ngIf="mode==='L'">
+<ion-list *ngIf="mode==='L' && !this.isLoad">
   <ng-container *ngIf="loanList.length > 0">
     <ion-item *ngFor="let loanLists of loanList;let i=index" color="none" lines="none">
       <ion-label>
         <h4 text-wrap>
-        {{loanLists?.lf_no}}</h4>
+        {{loanLists?.acc_num}}</h4>
         <p text-wrap>{{loanLists?.cust_name}}</p>
        </ion-label>
        <ion-buttons slot="end">
@@ -25,18 +25,70 @@
   </ng-container>
 </ion-list>
 
-<ion-list *ngIf="mode==='D'">
+
+<!-- For Showing Loan List -->
+<ion-list  *ngIf="mode==='L' && this.isLoad">
+  <ion-item color="none" lines="none" *ngFor="let loanLists of loanList;let i=index">
+    <ion-label>
+      <h4>
+        <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+      </h4>
+      <p>
+        <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+      </p>
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-skeleton-text [animated]="true" style="width: 40%;"></ion-skeleton-text>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+</ion-list>
+<!-- End -->
+
+
+
+
+<ion-list *ngIf="mode==='D' && !this.isLoad">
   <ion-item lines="none">
     <ion-label><h4>Block </h4></ion-label>
-    <ion-label><p>{{location.block?.block_name}}</p></ion-label>
+    <ion-label><p>{{location?.block?.block_name ? location?.block?.block_name : 'N/A'}}</p></ion-label>
   </ion-item>
-  <ion-item lines="none">
+  <ion-item class="ion-margin-vertical" lines="none">
     <ion-label><h4>Service Area </h4></ion-label>
-    <ion-label><p>{{location.sArea?.sa_name}}</p></ion-label>
+    <ion-label><p>{{location?.sArea?.sa_name ? location?.sArea?.sa_name : 'N/A'}}</p></ion-label>
   </ion-item>
   <ion-item lines="none">
     <ion-label><h4>Village</h4></ion-label>
-    <ion-label><p>{{location.village?.vill_name}}</p></ion-label>
+    <ion-label><p>{{location?.village?.vill_name ? location?.village?.vill_name : 'N/A'}}</p></ion-label>
   </ion-item>
+</ion-list>
+
+<!-- For Showing selected location in dashboard -->
+<ion-list  *ngIf="mode==='D' && this.isLoad">
+   <ion-item lines="none">
+      <ion-label>
+        <h4><ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text></h4>
+      </ion-label>
+      <ion-label>
+        <p><ion-skeleton-text [animated]="true" style="width: 50%;"></ion-skeleton-text></p>
+      </ion-label>
+   </ion-item>
+   <ion-item lines="none">
+    <ion-label>
+      <h4><ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text></h4>
+    </ion-label>
+    <ion-label>
+      <p><ion-skeleton-text [animated]="true" style="width: 50%;"></ion-skeleton-text></p>
+    </ion-label>
+ </ion-item>
+ <ion-item lines="none">
+  <ion-label>
+    <h4><ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text></h4>
+  </ion-label>
+  <ion-label>
+    <p><ion-skeleton-text [animated]="true" style="width: 50%;"></ion-skeleton-text></p>
+  </ion-label>
+</ion-item>
 </ion-list>
 

@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class SegmentComponent implements OnInit {
   @Input() galleryType: any;
   @Output() tabValue: EventEmitter<string>= new EventEmitter();
+  @Input() tabLabel: any=[];
   constructor() { }
 
   ngOnInit() {}

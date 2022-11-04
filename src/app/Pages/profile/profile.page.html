@@ -1,24 +1,24 @@
 <app-common-header [title]="'Profile'"></app-common-header>
-<ion-content class="wrapper">
-
-  <div class="profileImg ion-margin-vertical">
-    <ion-avatar>
-      <img [src]="'../../../assets/logo/logo.png'"/>
-    </ion-avatar>
-  </div>
-  <div class="profileImgContainer">
+<ion-content>
+  <div class="mainPanelWrapper">
+    <div class="logInCardHeader">
+        <img src="../../../assets/Images/defaultUser.png"/>
+    </div>
     <ion-list>
       <ion-item color="none"  lines="none" >
-        <ion-label>8777528909</ion-label>
+        <ion-icon name="call-outline" class="ion-padding"></ion-icon>
+        <ion-label>{{userDT?.user_id}}</ion-label>
+      </ion-item>
+      <ion-item color="none" class="ion-margin-vertical"  lines="none">
+        <ion-icon name="person-outline"  class="ion-padding"></ion-icon>
+        <ion-label>{{userDT?.name}}</ion-label>
       </ion-item>
       <ion-item color="none"  lines="none">
-        <ion-label>Suman Mitra</ion-label>
+        <ion-icon name="mail-outline"  class="ion-padding"></ion-icon>
+        <ion-label>{{userDT?.email_id}}</ion-label>
       </ion-item>
       <ion-item color="none"  lines="none">
-        <ion-label>sumanmitra0096@gmail.com</ion-label>
-      </ion-item>
-      <ion-item color="none"  lines="none">
-        <ion-label>
+        <ion-label  class="ion-padding">
           <h4>Privacy Policy</h4>
           <h4>Terms & Conditions</h4>
         </ion-label>
@@ -26,19 +26,8 @@
           0.0.1
         </ion-label>
       </ion-item>
-      <!-- <ion-item color="none"  lines="none">
-        <ion-label>
-            Log Out
-        </ion-label>
-        <ion-buttons slot="end">
-          <ion-button fill="clear" (click)="logout()">
-            <ion-icon slot="icon-only" name="power-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-
-      </ion-item> -->
     </ion-list>
-   <app-common-fab-btn [vl]="'bottom'" [hl]="'end'"></app-common-fab-btn>
-
   </div>
 </ion-content>
+<app-common-fab-btn [vl]="'center'" [hl]="'end'"></app-common-fab-btn>
+

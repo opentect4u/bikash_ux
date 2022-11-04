@@ -1,9 +1,16 @@
 <ion-tabs >
   <ion-tab-bar slot="bottom" >
-    <ion-tab-button [tab]="menus.tab" *ngFor="let menus of menu">
-      <ion-icon [name]="menus.icon"></ion-icon>
-      <ion-label>{{menus.label}}</ion-label>
-    </ion-tab-button>
+    <ng-container *ngFor="let menus of menu">
+      <ion-tab-button [tab]="menus.tab"  *ngIf="menus.tab !== ''">
+        <ion-icon [name]="menus.icon"></ion-icon>
+        <ion-label>{{menus.label}}</ion-label>
+      </ion-tab-button>
+      <ion-tab-button  *ngIf="menus.tab === ''" (click)="openAlert($event)" >
+        <ion-icon [name]="menus.icon"></ion-icon>
+        <ion-label>{{menus.label}}</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
   </ion-tab-bar>
 </ion-tabs>
 

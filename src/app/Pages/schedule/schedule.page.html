@@ -1,0 +1,57 @@
+
+
+<app-common-header [title]="'Schedule'" ></app-common-header>
+
+<ion-content>
+  <ion-row>
+    <!-- Move back one screen of the slides -->
+    <ion-col size="2" class="ion-text-center">
+      <ion-buttons>
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+      </ion-buttons>
+    </ion-col>
+
+    <ion-col size="8" class="ion-text-center">
+      <h2 class="calendaerTitle">{{ viewTitle }}</h2>
+    </ion-col>
+
+    <!-- Move forward one screen of the slides -->
+    <ion-col size="2" class="ion-text-center">
+      <ion-buttons>
+        <ion-button fill="clear" (click)="next()">
+          <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+    </ion-col>
+  </ion-row>
+  <calendar
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    [step]="30"
+    [endHour]="23"
+
+    noEventsLabel="There is no event to display"
+    [monthviewDisplayEventTemplate]="template"
+  >
+  </calendar>
+  <ng-template #template let-view="view" let-row="row" let-col="col">
+    <div [class.with-event]="view.dates[row*7+col].events.length">
+      {{view.dates[row*7+col].label}}
+      <div class="indicator-container">
+        <div class="event-indicator" *ngFor="let e of view.dates[row*7+col].events"></div>
+      </div>
+    </div>
+  </ng-template>
+
+</ion-content>
+<app-common-fab-btn
+[vl]="'bottom'"
+[hl]="'end'"
+(opneModal)="openCalModal($event)"
+></app-common-fab-btn>

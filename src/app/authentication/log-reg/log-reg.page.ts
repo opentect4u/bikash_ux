@@ -18,6 +18,9 @@ import { map } from 'rxjs/operators';
 export class LogRegPage{
   @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
   time: BehaviorSubject<string> = new BehaviorSubject<string>('02:00');
+  customActionSheetOptions: any = {
+    header: 'ARDB LIST',
+  };
   timer = 0;
   interval;
   ardbList: any=[];
@@ -46,7 +49,7 @@ export class LogRegPage{
     this.signInForm = this.fb.group({
       // eslint-disable-next-line @typescript-eslint/naming-convention
       user_id:['',[Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      pass:['',Validators.required],
+      pass:['',[Validators.required]],
       id:[0],
       lat:[''],
       long:['']
@@ -55,7 +58,7 @@ export class LogRegPage{
   setSignUpForm(){
     this.signUpForm = new FormGroup({
       user_id:new FormControl('',[Validators.required,Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]),
-      password:new FormControl('',Validators.required),
+      password:new FormControl('',[Validators.required,Validators.pattern('^^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,20}$')]),
       email_id:new FormControl('',[Validators.email]),
       ardb_id:new FormControl('',[Validators.required]),
       user_name:new FormControl('',[Validators.required,Validators.minLength(4)]),
@@ -67,35 +70,36 @@ export class LogRegPage{
       user:new FormControl('')
     },
     UtilityCheckPassword.mustMatch('password', 'confpassword'));
+    this.signUpForm.controls.user_id.valueChanges.subscribe(res =>{
+      // console.log(res);
+      this.signUpForm.patchValue({
+        user: res
+      });
+    });
   }
-  async signIn(){
-   this.requestPermission();
-  }
+  async signIn(){this.requestPermission();}
   async requestPermission(){
-    /********************* Use After Integration of Api*************************/
+    /********************* Use After Integration of Api *************************/
   //  const req = await this.loader.requestPermission();
   //    if(req === 'granted'){
-  //          const options: PositionOptions = {
-  //            enableHighAccuracy:true
-  //          };
-  //   this.location = await this.loader.getCurrentLocation(options);
-  //   this.signInForm.patchValue({
-  //     lat:this.location.coords.latitude,
-  //     long:this.location.coords.longitude
-  //   });
-  //  }
-  //   this.logIn();
+  //     this.loader.showLoading('Logging In..');
+  //     const options: PositionOptions = {
+  //       enableHighAccuracy:true
+  //     };
+  //     this.location = await this.loader.getCurrentLocation(options);
+  //     this.signInForm.patchValue({
+  //     id:0,
+  //     lat:this.location?.coords.latitude,
+  //     long:this.location?.coords.longitude
+  //     });
+  //   }
+  //   else{
+  //     this.loader.showLoading('Logging In..');
+  //   }
+   setTimeout(() => {
+    this.logIn();
+   }, 2000);
    /******************** End ************************* */
-
-   /******************** Use For Demo ************************* */
- this.loader.showLoading('Logging In..');
- setTimeout(() => {
-  this.loader.hideLoading();
-  localStorage.setItem('user','true');
-  localStorage.setItem('ardb_id','26');
-  this.loader.navigateToParicularPage('/main',null);
-  }, 3000);
-  /********************** End ********************************* */
   }
 
   signUp(){
@@ -123,12 +127,31 @@ export class LogRegPage{
 
   }
   signUpComplete(){
-    console.log(this.signUpForm.value);
-  //  this.loader.presentToast('Registration Successfull','S');
-  // this.dbInct.callApi(1,'Registration',this.signUpForm.value).subscribe(res =>{
-  //   console.log(res);
-  // });
-   //Submit the details
+    this.loader.showLoading('Please Wait....');
+    const dt ={
+      user:this.signUpForm.value.user,
+      user_id:this.signUpForm.value.user_id,
+      email_id:this.signUpForm.value.email_id,
+      password:this.signUpForm.value.password,
+      user_name:this.signUpForm.value.user_name,
+      ardb_id:this.signUpForm.value.ardb_id,
+      vill_id:0,
+      block_id:0,
+      sa_id:0,
+    };
+  this.dbInct.callApi(1,'user_registration',dt).subscribe((res: any) =>{
+   setTimeout(() => {
+    this.loader.presentToast(res.suc > 0 ? 'Registration successfull, pending for approval!!' : res.msg,
+      res.suc > 0 ? 'S' : 'E');
+      this.loader.hideLoading();
+      this.galleryType = res.suc > 0 ? 'L' : this.galleryType;
+   }, 3000);
+  },err => {
+   setTimeout(() => {
+    this.loader.hideLoading();
+    this.loader.presentToast('Server not responding','E');
+  }, 3000);
+  });
  }
  reset(event){
   this.galleryType = event;
@@ -148,17 +171,41 @@ export class LogRegPage{
  }
  //For Sign In Method
  logIn(){
-  console.log(this.signInForm.value);
-  this.dbInct.callApi(1,'/login',this.signInForm.value).subscribe((res: any)=>{
-    // if(res > 0){
-    //   localStorage.setItem('user',JSON.stringify(res.msg[0]));
-    //   localStorage.setItem('location',JSON.stringify({lat:this.signInForm.value.lat,long:this.signInForm.value.long}));
-    //   this.loader.navigateToParicularPage('/main',null);
-    // }
-    // else{
-    //   this.loader.presentToast(res.msg,'E');
-    // }
-    console.log(res);
+  this.dbInct.callApi(1,'login',this.signInForm.value).subscribe((res: any)=>{
+    if(res.suc > 0){
+      console.log(res);
+       this.loader.hideLoading();
+       try{
+       localStorage.setItem('location',JSON.stringify({lat:this.signInForm.value.lat,long:this.signInForm.value.long}));
+       localStorage.setItem('ardb_name',this.ardbList.find((x: any) => x.ardb_code === Number(res.msg[0].ardb_id))?.ardb_name);
+      localStorage.setItem('id',res.msg[0].rec_id);
+      localStorage.setItem('ardb_id',res.msg[0].ardb_id);
+      localStorage.setItem('block_id',res.msg[0].block_id);
+      localStorage.setItem('sa_id',res.msg[0].sa_id);
+      localStorage.setItem('vill_id',res.msg[0].vill_id);
+      localStorage.setItem('name',res.msg[0].user_name);
+      localStorage.setItem('user_id',res.msg[0].user_id);
+      localStorage.setItem('email_id',res.msg[0].email_id);
+      localStorage.setItem('user','true');
+      localStorage.setItem('emp_code',res.msg[0].emp_code);
+      this.loader.navigateToParicularPage('/main',null);
+      }
+    catch(ex){
+      this.loader.hideLoading();
+      this.loader.presentToast('Something wrong happened!!','E');
+      localStorage.clear();
+    }
+    }
+    else{
+       this.loader.hideLoading();
+       this.loader.presentToast(res.msg,'E');
+    }
+
+  },
+  error =>{
+    this.loader.hideLoading();
+    this.loader.presentToast('Server not respond','E');
+    localStorage.clear();
   });
  }
 
@@ -166,11 +213,33 @@ export class LogRegPage{
 //Method called after user click on Send OTP
 
 async checkReadSmsPermission(){
-    this.signUpForm.patchValue({
-      user:this.signUpForm.value.user_id
+
+    this.loader.showLoading('Please Wait..');
+
+    this.dbInct.callApi(0,'check_phone','user_id='+this.signUpForm.value.user_id).subscribe((res: any) =>{
+     setTimeout(() => {
+      if(res.suc > 0){
+        this.loader.presentToast('mobile number already exist','E');
+      }
+      else{
+         this.setStep(2);
+         this.setTimer(2);
+      }
+      this.loader.hideLoading();
+     }, 2000);
+
+    },
+    err =>{
+     setTimeout(() => {
+      this.loader.hideLoading();
+      this.loader.presentToast('server not responding','E');
+    }, 2000);
     });
-    this.setStep(2);
-    this.setTimer(2);
+
+
+
+
+
   /**********Demo************ */
   // const result = await this.loader.getAndroidPermission('S');
   // console.log(result);
@@ -243,9 +312,8 @@ async checkReadSmsPermission(){
  setTimer(duration: number){
    clearInterval(this.interval);
   this.timer = duration * 60 ;
-  console.log(this.timer);
+  // console.log(this.timer);
   this.interval = setInterval(() =>{
-    console.log('s');
     this.updateTimerValue();
   },1000);
  }
@@ -259,7 +327,6 @@ async checkReadSmsPermission(){
    const text = minutes + ':' + seconds;
    this.time.next(text);
    --this.timer;
-   console.log(this.timer);
    if(this.timer < 0){
     clearInterval(this.interval);
    }
@@ -267,8 +334,8 @@ async checkReadSmsPermission(){
  }
  getArdbList(){
   this.dbInct.callApi(0,'ardb_list','id=').pipe((map((x: any) => x.msg))).subscribe((res) =>{
-    console.log(res);
     this.ardbList = res;
+    console.log(this.ardbList);
   });
  }
 }

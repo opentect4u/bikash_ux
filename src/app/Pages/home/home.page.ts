@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +20,7 @@ export class HomePage implements OnInit {
   sArea: ServiceArea[]=[];
   village: Village[]=[];
   location: FormGroup;
+  userDtls = localStorage;
   isModalOpen= false;
   constructor(private router: Router,
               private loader: LoaderService,
@@ -34,14 +36,61 @@ export class HomePage implements OnInit {
               }
 
   ngOnInit() {
-    this.setLocation(
-      localStorage.getItem('block') ? JSON.parse(localStorage.getItem('block')) : '',
-      localStorage.getItem('sArea') ? JSON.parse(localStorage.getItem('sArea')) : '',
-      localStorage.getItem('vill') ? JSON.parse(localStorage.getItem('vill')) : '');
   }
   ionViewWillEnter(){
    this.getBlock();
+   this.getdtlsByID(Number(localStorage.getItem('block_id')));
   }
+  getdtlsByID(blockId){
+   if(blockId > 0){
+     this.db.callApi(0,'block_list','id='+blockId+'&ardb_id='+localStorage.getItem('ardb_id'))
+     .pipe(map((x: any) => x.msg))
+     .subscribe(res =>{
+              if(res.length > 0){
+                 this.getServiceAreaByblockID(res[0]);
+                 setTimeout(() => {
+                 this.getServiceArea(res[0]);
+                 }, 2000);
+              }
+     });
+   }
+  }
+  getServiceAreaByblockID(blk){
+    this.db.callApi(0,'sa_list','id='+localStorage.getItem('sa_id')
+    +'&ardb_id='+localStorage.getItem('ardb_id')
+    +'&block_id='+blk?.block_id).
+    pipe((map((x: any) => x.msg))).
+    subscribe(sa =>{
+       if(sa.length > 0){
+       this.getVillageByID(sa[0],blk);
+       setTimeout(() => {
+       this.getVillage(sa[0]);
+       }, 3000);
+       }
+    });
+  }
+
+  getVillageByID(sa,_block){
+    this.db.callApi(0,'vill_list',
+    'id='+localStorage.getItem('vill_id')
+    +'&ardb_id='+localStorage.getItem('ardb_id')
+    +'&block_id='+_block?.block_id
+    +'&sa_id='+sa?.sa_id).
+    pipe(map((x: any) => x.msg)).subscribe(vill =>{
+           if(vill.length > 0){
+            this.setLocation(
+              _block,
+              sa,
+              vill[0]);
+              this.location.patchValue({
+                block: _block,
+                sarea: sa,
+                village: vill[0]
+              });
+           }
+    });
+  }
+
   setLocation(bName,sName,vName){
  this.loct = {
    block: bName,
@@ -50,27 +99,50 @@ export class HomePage implements OnInit {
  };
   }
   submitlocation(){
-  this.loader.showLoading('Apply Changes..');
-    setTimeout(() =>{
-      localStorage.setItem('block',JSON.stringify(this.location.value.block));
-      localStorage.setItem('sArea',JSON.stringify(this.location.value.sarea));
-      localStorage.setItem('vill',JSON.stringify(this.location.value.village));
-      this.setLocation(
-        this.location.value.block,
-        this.location.value.sarea,
-        this.location.value.village,
-        );
+  this.loader.showLoading('Applying Changes..');
+  const dt ={
+    user_id:localStorage.getItem('user_id'),
+    block_id:this.location.value.block.block_id,
+    sa_id:this.location.value.sarea.sa_id,
+    vill_id: this.location.value.village.vill_id,
+    user_name:localStorage.getItem('name'),
+    user:localStorage.getItem('name'),
+    ardb_id:localStorage.getItem('ardb_id')
+  };
+  this.db.callApi(1,'save_params',dt)
+  .pipe(map((x: any) => x.suc))
+  .subscribe(res =>{
+     if(res > 0){
+      localStorage.setItem('block_id',this.location.value.block.block_id);
+      localStorage.setItem('sa_id',this.location.value.sarea.sa_id);
+      localStorage.setItem('vill_id',this.location.value.village.vill_id);
+      this.setLocation(this.location.value.block,this.location.value.sarea,this.location.value.village);
+      setTimeout(() => {
+        this.loader.hideLoading();
+        this.isModalOpen=!this.isModalOpen;
+        this.loader.presentToast('Changes Applied Successfully','S');
+      }, 3000);
+     }
+     else{
+      setTimeout(() => {
+        this.loader.hideLoading();
+        this.loader.presentToast('Something went wrong','E');
+      }, 3000);
+     }
+  },
+  error => {
     this.loader.hideLoading();
-    this.loader.presentToast('Changes Applied Successfully','S');
-    this.isModalOpen=!this.isModalOpen;
-    },3000);
+    this.loader.presentToast('Server not responds','E');
+  });
+
   }
   navigateToPage(){
-    // this.router.navigateByUrl('/main/lists');
-    this.router.navigate(['/main/lists',
-     this.location.value.block.block_id,
-     this.location.value.sarea.sa_id,
-     this.location.value.village.vill_id]);
+    if(this.loct.block){
+      this.router.navigate(['/main/lists']);
+    }
+    else{
+      this.loader.presentToast('Location not selected!','E');
+    }
   }
   getBlock(){
     this.db.callApi(0,'block_list','ardb_id='+localStorage.getItem('ardb_id'))
@@ -81,6 +153,7 @@ export class HomePage implements OnInit {
   getServiceArea(block){
     this.db.callApi(0,'sa_list','ardb_id='+block.ardb_id+'&block_id='+block.block_id)
     .pipe(map((x: any) => x.msg)).subscribe(res =>{
+        console.log(res);
        this.sArea = res;
     });
   }
@@ -91,6 +164,7 @@ export class HomePage implements OnInit {
     });
   }
   changelocation(event,type){
+    console.log(type);
     switch(type){
       case 'B':
                 this.getServiceArea(event.value);
@@ -109,11 +183,7 @@ export class HomePage implements OnInit {
     }
   }
   locationSet(){
-    this.location.patchValue({
-      block:localStorage.getItem('block') ? JSON.parse(localStorage.getItem('block')) : '',
-      sarea:localStorage.getItem('sArea') ? JSON.parse(localStorage.getItem('sArea')) : '',
-      village:localStorage.getItem('vill') ? JSON.parse(localStorage.getItem('vill')) : ''
-    });
     this.isModalOpen=!this.isModalOpen;
   }
+
 }

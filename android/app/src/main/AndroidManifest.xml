@@ -37,9 +37,15 @@
     </application>
 
     <!-- Permissions -->
+
     <uses-permission android:name="android.permission.INTERNET" />
-   <!-- Geo Location -->
+            <!-- Permissions for Locations  -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature android:name="android.hardware.location.gps" />
+
+    <!-- Permission for Recieve SMS -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+     <!-- Permission for PHONE STATE -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

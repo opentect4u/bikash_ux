@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { DbInteractionService } from 'src/app/Service/db-interaction.service';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-common-fab-btn',
@@ -7,16 +8,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./fab-btn.component.scss'],
 })
 export class FabBtnComponent implements OnInit {
+  @Output() opneModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input()  vl: any;
   @Input()  hl: any;
+  routerDT: any;
+  constructor(
+    private acRT: ActivatedRoute,
+    private router: Router,
+    private db: DbInteractionService) { }
 
-  constructor(private router: Router) { }
-
-  ngOnInit() {}
+  ngOnInit() {
+    this.acRT.data.subscribe(res =>{
+      console.log(res);
+      this.routerDT = res.id;
+    });
+  }
   logout(){
-    console.log('asd');
-    localStorage.clear();
-    this.router.navigate(['/']);
+    this.db.loggedout();
   }
   routeToPage(){this.router.navigate(['/main/changeprofile']);}
+  modalChange(){
+  this.opneModal.emit(true);
+  }
 }

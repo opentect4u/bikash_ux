@@ -1,0 +1,34 @@
+
+<app-common-header [title]="'Attandance'"></app-common-header>
+<ion-content>
+  <div class="mainPanelWrapper">
+    <div class="logInCardHeader">
+        <img src="../../../assets/Images/defaultUser.png"/>
+        <h4>Date: {{getToday()}}</h4>
+    </div>
+    <ion-card mode="ios">
+      <ion-card-header>
+       <ion-card-subtitle>Attandance</ion-card-subtitle>
+      </ion-card-header>
+       <ion-card-content>
+         <h2 class="ion-text-center">In: {{attandanceTiming?.check_in ? (attandanceTiming?.check_in | date:'hh:mma'): 'N/A'}}</h2>
+
+         <h2 class="ion-text-center">Out: {{attandanceTiming?.check_out ?
+          (attandanceTiming?.check_out | date:'hh:mma') : 'N/A'}}</h2>
+         <div class="card-footer">
+          <ng-container *ngIf="attandanceTiming?.check_out && attandanceTiming?.check_in">
+                <ion-label class="ion-text-center cardFooterlabel">Thank You!!</ion-label>
+          </ng-container>
+          <ng-container
+          *ngIf="attandanceTiming?.check_in === null ||  attandanceTiming?.check_out === null">
+            <a
+            (click)="checkedIn(chekedBtn.length > 0 ? 'O' : 'I')"
+            >{{chekedBtn.length > 0 ? 'Out' : 'In'}}
+            </a>
+          </ng-container>
+
+        </div>
+       </ion-card-content>
+    </ion-card>
+    </div>
+</ion-content>

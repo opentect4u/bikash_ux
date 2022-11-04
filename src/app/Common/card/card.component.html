@@ -1,11 +1,39 @@
 
-  <ion-card>
+<ng-container *ngIf="noteList.length > 0">
+  <!-- <ion-card *ngFor="let notes of noteList">
     <ion-card-header>
-      <ion-list>
-        <ion-item lines="none">
-          <ion-label>Location</ion-label>
-            <ion-icon slot="end" name="create"></ion-icon>
-        </ion-item>
-      </ion-list>
+    <ion-card-title >
+      <ion-icon name="pricetag-outline"></ion-icon> {{notes.title}}
+      <h6>{{notes.date | date:'dd/MM/YYYY'}}</h6>
+    </ion-card-title>
     </ion-card-header>
-  </ion-card>
+  </ion-card> -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>
+        <h1>Tour Diary</h1>
+      </ion-label>
+    </ion-list-header>
+   <ion-item *ngFor="let notes of noteList">
+    <ion-label>
+      <!-- <ion-icon name="pricetag-outline"></ion-icon> -->
+      {{notes.diary_title}}
+      <p>{{notes.diary_date | date:'dd/MM/YYYY'}}</p>
+    </ion-label>
+    <ion-buttons slot="end" (click)="getDT(notes)">
+      <ion-button >
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+   </ion-item>
+  </ion-list>
+</ng-container>
+<ng-container *ngIf="noteList.length === 0">
+  <ion-list>
+    <ion-label>
+      <h5>No Tour Diary Found</h5>
+    </ion-label>
+  </ion-list>
+
+</ng-container>
+

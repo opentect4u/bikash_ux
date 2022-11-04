@@ -1,0 +1,328 @@
+
+ion-label{
+  h5{
+    font-size: 20px;
+    text-align: center;
+    line-height: 7;
+  }
+}
+
+.mainPanel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .logInCardHeader {
+    min-height: 252px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--ion-color-light);
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 50px;
+
+    img {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    ion-label {
+      h4 {
+        font-size: 20px;
+        ;
+        font-weight: 600;
+        color: var(--ion-color-success);
+        padding: 0 5px;
+        text-align: center;
+
+      }
+
+      p {
+        font-size: 12px;
+        ;
+        font-weight: 600;
+        color: var(--ion-color-primary);
+        padding: 0 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  .loginCardBody {
+    height: 360px;
+    padding: 5px;
+    app-common-segment {
+      ion-segment-button{
+        --background-checked:var(--ion-color-primary);
+        --color-checked:var(--ion-color-light);
+        --indicator-color:none;
+        text-transform: capitalize;
+        font-weight: 600;
+        font-size: 18px;
+        letter-spacing: 0px;
+      }
+      .segment-button-checked {
+         border-top-left-radius: 50px;
+         border-bottom-right-radius: 50px;
+         }
+
+    }
+        div {
+      ion-grid {
+        ion-list {
+          div {
+            text-align: center;
+            padding: 11px;
+            .otp-input {
+              border-radius: 10px;
+              width: 50px !important;
+              height: 50px !important;
+              text-align: center;
+              font-size: 20px;
+              margin-right: 6px;
+              background: var(--ion-color-light);
+              border: none;
+              font-weight: 800;
+              color: var(--ion-color-primary);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.mainPanelWrapper{
+  height: 100%;
+  .logInCardHeader {
+    min-height: 180px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--ion-color-light);
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 50px;
+    position:relative;
+    flex-direction: column;
+
+    .editImage{
+      position: absolute;
+      bottom: 5px;
+      bottom: 31px;
+      left: 52%;
+      border-radius: 50%;
+      background: var(--ion-color-medium);
+    }
+
+    img {
+      height: 115px;
+      width: 115px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--ion-color-medium);
+      box-shadow: 0px 0px 3px 1px var(--ion-color-medium-shade);
+    }
+
+    ion-label {
+      h4 {
+        font-size: 20px;
+        ;
+        font-weight: 600;
+        color: var(--ion-color-success);
+        padding: 0 5px;
+        text-align: center;
+
+      }
+
+      p {
+        font-size: 12px;
+        ;
+        font-weight: 600;
+        color: var(--ion-color-primary);
+        padding: 0 5px;
+        text-align: center;
+      }
+    }
+  }
+  ion-card{
+    ion-card-header{
+      border-bottom:2px solid var(--ion-color-success);
+    }
+    ion-card-content{
+      padding:0;
+      app-common-list{
+        ion-list{
+          ion-item{
+            ion-label{
+              h4{
+                font-size: 20px;
+                font-weight: 500;
+              }
+              p{
+                font-size: 18px;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+      }
+      .card-footer{
+        padding: 8px;
+        text-align: center;
+        background: var(--ion-color-primary);
+        a{
+          text-transform: capitalize;
+          text-decoration: underline;
+          color:var(--ion-color-light);
+          font-size: 18px;
+        }
+      }
+    }
+  }
+  .loginCardBody {
+    height: 360px;
+    padding: 5px;
+    app-common-segment {
+      ion-segment-button{
+        --background-checked:var(--ion-color-primary);
+        --color-checked:var(--ion-color-light);
+        --indicator-color:none;
+        text-transform: capitalize;
+        font-weight: 600;
+        font-size: 18px;
+        letter-spacing: 0px;
+      }
+      .segment-button-checked {
+         border-top-left-radius: 50px;
+         border-bottom-right-radius: 50px;
+         }
+
+    }
+        div {
+      ion-grid {
+        ion-list {
+          div {
+            text-align: center;
+            padding: 11px;
+            .otp-input {
+              border-radius: 10px;
+              width: 50px !important;
+              height: 50px !important;
+              text-align: center;
+              font-size: 20px;
+              margin-right: 6px;
+              background: var(--ion-color-light);
+              border: none;
+              font-weight: 800;
+              color: var(--ion-color-primary);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.mainPanelProfile{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .logInCardHeader {
+    min-height: 200px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--ion-color-light);
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 50px;
+     position:relative;
+
+    .editImage{
+      position: absolute;
+      bottom: 5px;
+      bottom: 31px;
+      left: 52%;
+      border-radius: 50%;
+      background: var(--ion-color-medium);
+    }
+
+    img {
+      height: 115px;
+      width: 115px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--ion-color-medium);
+      box-shadow: 0px 0px 3px 1px var(--ion-color-medium-shade);
+    }
+
+    ion-label {
+      h4 {
+        font-size: 20px;
+        ;
+        font-weight: 600;
+        color: var(--ion-color-success);
+        padding: 0 5px;
+        text-align: center;
+
+      }
+
+      p {
+        font-size: 12px;
+        ;
+        font-weight: 600;
+        color: var(--ion-color-primary);
+        padding: 0 5px;
+        text-align: center;
+      }
+    }
+  }
+  .loginCardBody {
+    height: 360px;
+    padding: 5px;
+    app-common-segment {
+      ion-segment-button{
+        --background-checked:var(--ion-color-primary);
+        --color-checked:var(--ion-color-light);
+        --indicator-color:none;
+        text-transform: capitalize;
+        font-weight: 600;
+        font-size: 18px;
+        letter-spacing: 0px;
+      }
+      .segment-button-checked {
+         border-top-left-radius: 50px;
+         border-bottom-right-radius: 50px;
+         }
+
+    }
+  }
+}
+ion-row{
+  ion-col{
+    .calendaerTitle{
+      margin-top: 6px;
+    }
+  }
+}
+
+.notesModal{
+  --background: var(--ion-color-light);
+  .notesList{
+    background:transparent;
+      .notesTextArea{
+      --background: var(--ion-color-light);
+      padding: 5px;
+      border-radius: 28px;
+    }
+  }
+}

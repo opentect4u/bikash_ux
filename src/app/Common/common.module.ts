@@ -6,6 +6,8 @@ import { CardComponent } from './card/card.component';
 import { FabBtnComponent } from './fab-btn/fab-btn.component';
 import { HeaderComponent } from './header/header.component';
 import { ListComponent } from './list/list.component';
+import { ModalComponent } from './modal/modal.component';
+import { PopOverComponent } from './pop-over/pop-over.component';
 import { SegmentComponent } from './segment/segment.component';
 @NgModule({
   declarations: [
@@ -13,11 +15,20 @@ import { SegmentComponent } from './segment/segment.component';
     HeaderComponent,
     ListComponent,
     FabBtnComponent,
+    PopOverComponent,
+    ModalComponent,
     CardComponent],
   imports: [
     CommonModule,
     IonicModule,
     IncludeModule],
-  exports: [SegmentComponent,FabBtnComponent,IncludeModule,HeaderComponent,ListComponent,CardComponent],
+  exports: [SegmentComponent,
+    PopOverComponent,
+    FabBtnComponent,
+    ModalComponent,
+    IncludeModule,
+    HeaderComponent,
+    ListComponent,
+    CardComponent],
 })
 export class SharedModule {}

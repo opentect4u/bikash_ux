@@ -1,5 +1,6 @@
 [
   {"id":1,"tab":"home","icon":"home-outline","label":"Home"},
   {"id":2,"tab":"help","icon":"notifications-outline","label":"Notifications"},
-  {"id":3,"tab":"profile","icon":"person-outline","label":"Profile"}
+  {"id":3,"tab":"profile","icon":"person-outline","label":"Profile"},
+  {"id":3,"tab":"","icon":"ellipsis-horizontal-outline","label":"More"}
 ]

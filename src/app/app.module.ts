@@ -6,16 +6,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Uid } from '@ionic-native/uid/ngx';
 import { BnNgIdleService } from 'bn-ng-idle';
-
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule,
     IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule],
-  providers: [BnNgIdleService,Uid,AndroidPermissions,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    DatePipe,
+    BnNgIdleService,
+    AndroidPermissions,
+    SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 
 })

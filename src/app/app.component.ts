@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { BnNgIdleService } from 'bn-ng-idle';
-import { LoaderService } from './Service/loader.service';
-
-
-
+import { DbInteractionService } from './Service/db-interaction.service';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -19,29 +17,23 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private controller: AlertController,
     private router: Router,
-    private bnIdle: BnNgIdleService,
-    private load: LoaderService) {
-
-      platform.ready().then(() => {
-      //  console.log(this.platform);
-      });
+    private splashScreen: SplashScreen,
+    private db: DbInteractionService,
+    private bnIdle: BnNgIdleService) {
+      this.initializeApp();}
+    ngOnInit(): void {
+      this.checkIdle();
+      this.setHardwarebackbutton();
     }
-  ngOnInit(): void {
-    this.checkIdle();
-    this.setHardwarebackbutton();
-    // this.killApp();
-}
   setHardwarebackbutton(){
    this.platform.backButton.subscribeWithPriority(10,()=>{
     if(this.router.url === '/'){
-      //Alert
       this.showAlert();
     }
     else if(this.router.url === '/main/home'){
       navigator['app'].exitApp();
     }
     else{
-      //Simply navigate to back..
       this.location.back();
     }
    });
@@ -65,18 +57,18 @@ export class AppComponent implements OnInit {
     await alert.present();
   }
   checkIdle(){
-    this.bnIdle.startWatching(300).subscribe((isTimedOut: boolean) => {
+    this.bnIdle.startWatching(3600).subscribe((isTimedOut: boolean) => {
       if (isTimedOut) {
         if(this.router.url!=='/'){
-          localStorage.clear();
-          this.load.navigateToParicularPage('/',null);
+          this.db.loggedout();
+          this.controller.dismiss();
         }
       }
     });
   }
-  // killApp(){
-  //   this.platform.pause.subscribe(() => {
-  //      localStorage.clear();
-  //   });
-  // }
+  initializeApp(){
+    this.platform.ready().then(() =>{
+      this.splashScreen.hide();
+    });
+  }
 }

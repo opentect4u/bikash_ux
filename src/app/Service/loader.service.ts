@@ -21,8 +21,7 @@ export class LoaderService {
     const loading = await this.loadingController.create({
       message: msg,
       translucent: true,
-      cssClass: 'css-custom',
-      mode:'ios'
+      mode:'md'
     });
     return await loading.present();
   }
