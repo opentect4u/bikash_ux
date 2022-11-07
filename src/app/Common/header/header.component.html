@@ -4,7 +4,7 @@
       <img src="../../../assets/logo/logo.png" alt='ARDB LOGO'/>
     </ion-avatar>
     <ion-buttons slot="end" >
-      <ion-button *ngIf="routeId === 4" (click)="isShowsearchbar=!isShowsearchbar">
+      <ion-button *ngIf="routeId === 4" (click)="focusonSearchbar();isShowsearchbar=!isShowsearchbar">
         <ion-icon name="search-outline" slot="icon-only"></ion-icon>
       </ion-button>
         <ion-button (click)="loggedOut()">

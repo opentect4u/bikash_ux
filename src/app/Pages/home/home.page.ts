@@ -46,12 +46,12 @@ export class HomePage implements OnInit {
      this.db.callApi(0,'block_list','id='+blockId+'&ardb_id='+localStorage.getItem('ardb_id'))
      .pipe(map((x: any) => x.msg))
      .subscribe(res =>{
-              if(res.length > 0){
-                 this.getServiceAreaByblockID(res[0]);
-                 setTimeout(() => {
-                 this.getServiceArea(res[0]);
-                 }, 2000);
-              }
+          if(res.length > 0){
+              this.getServiceAreaByblockID(res[0]);
+              setTimeout(() => {
+              this.getServiceArea(res[0]);
+              }, 2000);
+          }
      });
    }
   }
@@ -92,11 +92,11 @@ export class HomePage implements OnInit {
   }
 
   setLocation(bName,sName,vName){
- this.loct = {
-   block: bName,
-   sArea:sName,
-   village:vName
- };
+  this.loct = {
+    block: bName,
+    sArea:sName,
+    village:vName
+  };
   }
   submitlocation(){
   this.loader.showLoading('Applying Changes..');
@@ -153,7 +153,7 @@ export class HomePage implements OnInit {
   getServiceArea(block){
     this.db.callApi(0,'sa_list','ardb_id='+block.ardb_id+'&block_id='+block.block_id)
     .pipe(map((x: any) => x.msg)).subscribe(res =>{
-        console.log(res);
+        // console.log(res);
        this.sArea = res;
     });
   }
@@ -164,7 +164,7 @@ export class HomePage implements OnInit {
     });
   }
   changelocation(event,type){
-    console.log(type);
+    // console.log(type);
     switch(type){
       case 'B':
                 this.getServiceArea(event.value);
@@ -185,5 +185,4 @@ export class HomePage implements OnInit {
   locationSet(){
     this.isModalOpen=!this.isModalOpen;
   }
-
 }

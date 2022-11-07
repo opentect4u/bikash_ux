@@ -80,25 +80,33 @@ export class LogRegPage{
   async signIn(){this.requestPermission();}
   async requestPermission(){
     /********************* Use After Integration of Api *************************/
-  //  const req = await this.loader.requestPermission();
-  //    if(req === 'granted'){
-  //     this.loader.showLoading('Logging In..');
-  //     const options: PositionOptions = {
-  //       enableHighAccuracy:true
-  //     };
-  //     this.location = await this.loader.getCurrentLocation(options);
-  //     this.signInForm.patchValue({
-  //     id:0,
-  //     lat:this.location?.coords.latitude,
-  //     long:this.location?.coords.longitude
-  //     });
-  //   }
-  //   else{
-  //     this.loader.showLoading('Logging In..');
-  //   }
-   setTimeout(() => {
-    this.logIn();
-   }, 2000);
+    /***********For Mobile App************/
+   const req = await this.loader.requestPermission();
+     if(req === 'granted'){
+      this.loader.showLoading('Logging In..');
+      const options: PositionOptions = {
+        enableHighAccuracy:true
+      };
+      this.location = await this.loader.getCurrentLocation(options);
+      this.signInForm.patchValue({
+      id:0,
+      lat:this.location?.coords.latitude,
+      long:this.location?.coords.longitude
+      });
+      setTimeout(() => {
+        this.logIn();
+      }, 2000);
+    }
+    else{
+       this.loader.presentToast('you have not allowed location permission to this app yet!!','E');
+    }
+  /******End*******/
+
+  /*********For Web *********/
+  //  setTimeout(() => {
+  //   this.logIn();
+  //  }, 2000);
+   /********End*************/
    /******************** End ************************* */
   }
 
@@ -173,7 +181,6 @@ export class LogRegPage{
  logIn(){
   this.dbInct.callApi(1,'login',this.signInForm.value).subscribe((res: any)=>{
     if(res.suc > 0){
-      console.log(res);
        this.loader.hideLoading();
        try{
        localStorage.setItem('location',JSON.stringify({lat:this.signInForm.value.lat,long:this.signInForm.value.long}));
@@ -200,7 +207,6 @@ export class LogRegPage{
        this.loader.hideLoading();
        this.loader.presentToast(res.msg,'E');
     }
-
   },
   error =>{
     this.loader.hideLoading();

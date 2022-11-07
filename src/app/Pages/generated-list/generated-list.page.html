@@ -51,6 +51,21 @@
                   </ion-label>
                 </ion-item>
               </ion-col>
+
+              <!-- Borrower Name & Co-Borrower Name -->
+              <ion-col size="12" *ngIf="lndetails?.co_cust_name1 || lndetails?.co_cust_name2 || lndetails?.co_cust_name3">
+                <ion-item>
+                  <ion-label>
+                    <h2>Co-Borrower Name </h2>
+                    <p>
+                      {{lndetails?.co_cust_name1 ? lndetails?.co_cust_name1 + ',' : ''}}
+                      {{lndetails?.co_cust_name2 ? lndetails?.co_cust_name2 + ',' : ''}}
+                      {{lndetails?.co_cust_name3 ? lndetails?.co_cust_name3 + ',' : ''}}
+                    </p>
+                  </ion-label>
+                </ion-item>
+              </ion-col>
+              <!--End-->
             </ion-row>
           </ion-grid>
 
@@ -168,22 +183,29 @@
     <ion-content class="ion-no-padding">
       <ion-grid *ngIf="type === 'M'">
         <ion-row>
+
+          <!-- Sector -->
           <ion-col size="12">
            <ion-item>
              <ion-label>
                <h2>Sector</h2>
-               <p>{{lndetails?.sector}}</p>
+               <p>{{lndetails?.sector ? lndetails?.sector : 'N/A'}}</p>
              </ion-label>
            </ion-item>
          </ion-col>
+         <!-- End -->
+         <!-- Activity -->
          <ion-col size="12">
           <ion-item>
             <ion-label>
               <h2>Activity</h2>
-              <p>{{lndetails?.activity}}</p>
+              <p>{{lndetails?.activity ? lndetails?.activity : 'N/A'}}</p>
             </ion-label>
           </ion-item>
          </ion-col>
+         <!-- End -->
+
+         <!-- Loan Amount & LF No -->
          <ion-col size="6">
           <ion-item>
             <ion-label>
@@ -200,6 +222,9 @@
              </ion-label>
            </ion-item>
          </ion-col>
+         <!-- End -->
+
+         <!-- Import Upto & interest Upto-->
          <ion-col size="6">
            <ion-item>
              <ion-label>
@@ -216,6 +241,86 @@
               </ion-label>
             </ion-item>
           </ion-col>
+           <!-- End -->
+
+          <!-- Last Disb Date & Amount -->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>
+                <h2>Last disb date</h2>
+                <p>{{lndetails?.last_disb_date | date:'dd/MM/YYYY hh:mma'}}</p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>
+                <h2>Total disb amount</h2>
+                <p>{{lndetails?.disb_amt | currency:'INR'}}</p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+           <!-- End -->
+
+          <!-- Share Amt & ROI-->
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>
+                <h2>Share amount</h2>
+                <p>
+                  {{(lndetails?.share_amt | currency:'INR')}}
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>
+                <h2>ROI(%)</h2>
+                <p>
+                  {{lndetails?.roi | percent}}
+                </p>
+              </ion-label>
+            </ion-item>
+           </ion-col>
+         <!-- End -->
+
+         <!-- Last Recovery Date & Amount -->
+        <ion-col size="6">
+            <ion-item>
+              <ion-label>
+                <h2>Last recovery date</h2>
+                <p>
+
+                  {{lndetails.last_recov_dt ? (lndetails.last_recov_dt | date:'dd/MM/YYYY hh:mma') : 'N/A'}}
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>
+                <h2>Last recovery amount</h2>
+                <p>
+                  {{lndetails.last_recov_amt | currency:'INR'}}
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+         <!-- End -->
+          <!-- Secuirity deposit Details -->
+          <ion-col size="12">
+            <ion-item lines="none">
+              <ion-label class="deposit_dtls">
+                <h2>Security deposit details</h2>
+                <p>
+                  {{lndetails.security_depo_dtls ? lndetails.security_depo_dtls : 'N/A'}}
+                </p>
+              </ion-label>
+            </ion-item>
+
+          </ion-col>
+          <!-- End -->
         </ion-row>
         <ion-header>
           <ion-toolbar color="light">

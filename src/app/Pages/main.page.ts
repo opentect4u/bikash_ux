@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
+import { Component,OnInit} from '@angular/core';
+import {Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import TabMenu from '../../assets/TabMenu.json';
 import { PopOverComponent } from '../Common/pop-over/pop-over.component';
@@ -13,10 +14,8 @@ export class MainPage implements OnInit {
   constructor(
     public router: Router,
     public popoverController: PopoverController
-    ) {
-    }
-  ngOnInit() {
-  }
+    ) {}
+  ngOnInit() {}
  async openAlert(ev){
   const popover = await this.popoverController.create({
     component:PopOverComponent,

@@ -39,6 +39,7 @@ export class GeneratedListPage implements OnInit {
     console.log(event);
     this.list = this.loanList.filter((location) =>
     (location?.acc_num?.toString().toLowerCase().indexOf(event.toLowerCase()) > -1 ||
+    location?.loan_acc_cd?.toString().toLowerCase().indexOf(event.toLowerCase()) > -1 ||
     location?.cust_name?.toString().toLowerCase().indexOf(event.toLowerCase()) > -1));
   }
   loadData(event){
@@ -70,7 +71,6 @@ export class GeneratedListPage implements OnInit {
   }
   openModal(event){
     this.isModalOpen = !this.isModalOpen;
-    console.log(event);
     const dt ={
       ardb_id:event.ardb_cd,
       block_name:event.br_block_cd,
@@ -83,7 +83,6 @@ export class GeneratedListPage implements OnInit {
     this.db.callApi(1,'loan_data',dt).pipe(map((x: any) => x.msg)).subscribe(res =>{
       this.Total_amt = 0;
       this.TotDemand = 0;
-      console.log(res[0]);
       this.lndetails = res[0];
       if(this.lndetails.trans_dt.length > 0){
         this.lndetails.trans_dt.forEach(amt =>{
@@ -96,7 +95,6 @@ export class GeneratedListPage implements OnInit {
                          this.lndetails.ovd_intt_demand +
                          this.lndetails.penal_intt_demand);
       this.isPaid = res[0]?.paid_flag;
-      // this.paidAmt =  this.Total_amt ?  this.Total_amt : 0;
       this.paidAmt = 0;
     });
   }

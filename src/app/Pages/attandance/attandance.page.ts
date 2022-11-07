@@ -51,7 +51,7 @@ export class AttandancePage implements OnInit {
     else{
       setTimeout(() => {
         this.loader.hideLoading();
-        this.loader.presentToast('you have not accessed location permission to this app yet','E');
+        this.loader.presentToast('you have not allowed location permission to this app yet!!','E');
       }, );
     }
   }
@@ -93,7 +93,7 @@ export class AttandancePage implements OnInit {
         user_id:localStorage.getItem('user_id'),
         emp_code:localStorage.getItem('emp_code'),
         sl_no:0,
-        check_in:this.datePipe.transform(new Date(),'YYYY-MM-dd HH:mma'),
+        check_in:this.datePipe.transform(new Date(),'YYYY-MM-ddTHH:mm'),
         lat_pos:lat,
         long_pos:long,
         user:localStorage.getItem('user_id'),
@@ -106,7 +106,7 @@ export class AttandancePage implements OnInit {
         user_id:localStorage.getItem('user_id'),
         emp_code:localStorage.getItem('emp_code'),
         sl_no:this.chekedBtn[0].sl_no,
-        check_out:this.datePipe.transform(new Date(),'YYYY-MM-dd HH:mma'),
+        check_out:this.datePipe.transform(new Date(),'YYYY-MM-ddTHH:mm'),
         lat_pos:lat,
         long_pos:long,
         user:localStorage.getItem('user_id'),

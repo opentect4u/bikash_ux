@@ -326,3 +326,20 @@ ion-row{
     }
   }
 }
+
+ion-card{
+  ion-card-header{
+    ion-card-subtitle{
+      font-size: 20px;
+      text-transform: capitalize;
+    }
+  }
+}
+ion-col{
+  ion-item{
+    .deposit_dtls{
+      text-overflow: inherit!important;
+      white-space: inherit!important;
+    }
+  }
+}

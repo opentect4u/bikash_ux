@@ -1,6 +1,6 @@
 import { transDT } from './transaction';
 /* eslint-disable @typescript-eslint/naming-convention */
-export class LoanDtls{
+export class LoanDtls {
   activity: string;
   ardb_branch_cd: string;
   ardb_branch_name: string;
@@ -39,4 +39,12 @@ export class LoanDtls{
   r_amt: any;
   acc_num: number;
   trans_dt: transDT[];
+  last_recov_amt: number;
+  last_recov_dt: string;
+  share_amt: number;
+  roi: number;
+  security_depo_dtls: string;
+  co_cust_name3: string;
+  co_cust_name2: string;
+  co_cust_name1: string;
 }

@@ -26,3 +26,23 @@
   line-height: 33px !important;
 }
 //End//
+
+
+
+
+
+ion-tab-button {
+  --color-selected: var(--ion-color-primary);
+  &::before {
+    background-color: transparent;
+    display: block;
+    content: "";
+    margin: 0 auto;
+    width: 30px;
+    height: 2px;
+  }
+
+  &.tab-selected::before {
+    background-color: var(--ion-color-primary);
+  }
+}

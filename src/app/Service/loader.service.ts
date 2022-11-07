@@ -10,7 +10,6 @@ import { SmsRetriever } from '@awesome-cordova-plugins/sms-retriever';
   providedIn: 'root'
 })
 export class LoaderService {
-
   constructor(
     private androidPermissions: AndroidPermissions,
     private router: Router,

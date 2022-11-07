@@ -19,6 +19,7 @@ export class ListComponent implements OnInit,AfterViewInit{
     ngAfterViewInit(){
      setTimeout(() => {
       this.isLoad =false;
+      console.log(this.location);
      }, 2000);
     }
 }
