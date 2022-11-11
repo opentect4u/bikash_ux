@@ -11,5 +11,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private db: DbInteractionService) { }
   ngOnInit() {}
-  logout(){this.db.loggedout();}
+  logout(){
+    this.db.loggedout();
+  }
 }

@@ -39,11 +39,11 @@ export class HomePage implements OnInit {
   }
   ionViewWillEnter(){
    this.getBlock();
-   this.getdtlsByID(Number(localStorage.getItem('block_id')));
+   this.getdtlsByID(localStorage.getItem('block_id'));
   }
   getdtlsByID(blockId){
    if(blockId > 0){
-     this.db.callApi(0,'block_list','id='+blockId+'&ardb_id='+localStorage.getItem('ardb_id'))
+     this.db.callApi(0,'block_list','id='+blockId+'&ardb_id='+localStorage.getItem('ardb_id').toString())
      .pipe(map((x: any) => x.msg))
      .subscribe(res =>{
           if(res.length > 0){
@@ -56,9 +56,9 @@ export class HomePage implements OnInit {
    }
   }
   getServiceAreaByblockID(blk){
-    this.db.callApi(0,'sa_list','id='+localStorage.getItem('sa_id')
-    +'&ardb_id='+localStorage.getItem('ardb_id')
-    +'&block_id='+blk?.block_id).
+    this.db.callApi(0,'sa_list','id='+localStorage.getItem('sa_id').toString()
+    +'&ardb_id='+localStorage.getItem('ardb_id').toString()
+    +'&block_id='+blk?.block_id.toString()).
     pipe((map((x: any) => x.msg))).
     subscribe(sa =>{
        if(sa.length > 0){
@@ -72,9 +72,9 @@ export class HomePage implements OnInit {
 
   getVillageByID(sa,_block){
     this.db.callApi(0,'vill_list',
-    'id='+localStorage.getItem('vill_id')
-    +'&ardb_id='+localStorage.getItem('ardb_id')
-    +'&block_id='+_block?.block_id
+    'id='+localStorage.getItem('vill_id').toString()
+    +'&ardb_id='+localStorage.getItem('ardb_id').toString()
+    +'&block_id='+_block?.block_id.toString()
     +'&sa_id='+sa?.sa_id).
     pipe(map((x: any) => x.msg)).subscribe(vill =>{
            if(vill.length > 0){
@@ -92,6 +92,7 @@ export class HomePage implements OnInit {
   }
 
   setLocation(bName,sName,vName){
+    console.log(bName);
   this.loct = {
     block: bName,
     sArea:sName,
@@ -145,20 +146,21 @@ export class HomePage implements OnInit {
     }
   }
   getBlock(){
-    this.db.callApi(0,'block_list','ardb_id='+localStorage.getItem('ardb_id'))
+    this.db.callApi(0,'block_list','ardb_id='+(localStorage.getItem('ardb_id')).toString())
     .pipe(map((x: any) => x.msg)).subscribe(res =>{
        this.block = res;
     });
   }
   getServiceArea(block){
-    this.db.callApi(0,'sa_list','ardb_id='+block.ardb_id+'&block_id='+block.block_id)
+    this.db.callApi(0,'sa_list','ardb_id='+block.ardb_id.toString()+'&block_id='+block.block_id.toString())
     .pipe(map((x: any) => x.msg)).subscribe(res =>{
         // console.log(res);
        this.sArea = res;
     });
   }
   getVillage(sArea){
-    this.db.callApi(0,'vill_list','ardb_id='+sArea.ardb_id+'&block_id='+sArea.block_id+'&sa_id='+sArea.sa_id)
+    this.db.callApi(0,'vill_list','ardb_id='+sArea.ardb_id.toString()
+    +'&block_id='+sArea.block_id.toString()+'&sa_id='+sArea.sa_id.toString())
     .pipe(map((x: any) => x.msg)).subscribe(res =>{
       this.village =res;
     });

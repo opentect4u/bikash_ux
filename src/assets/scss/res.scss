@@ -343,3 +343,39 @@ ion-col{
     }
   }
 }
+ion-list{
+  ion-item{
+    .notificationDtls{
+      text-overflow: inherit!important;
+      white-space: inherit!important;
+    }
+  }
+}
+.notificationHeader{
+  padding: 0 17px;
+  font-size: 20px;
+}
+
+ion-content{
+   .noNotification{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .noNotification_header{
+      a{
+         ion-icon{
+          font-size: 29px;
+          background: var(--ion-color-success-back);
+          color: var(--ion-color-success);
+          padding: 20px;
+          border-radius: 50px;
+         }
+      }
+    }
+    .noNotification_body{
+      text-align: center;
+    }
+   }
+}

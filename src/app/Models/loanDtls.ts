@@ -44,7 +44,5 @@ export class LoanDtls {
   share_amt: number;
   roi: number;
   security_depo_dtls: string;
-  co_cust_name3: string;
-  co_cust_name2: string;
-  co_cust_name1: string;
+  joint_holder: string;
 }

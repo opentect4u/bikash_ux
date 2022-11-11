@@ -1,2 +1,28 @@
-<app-common-header [title]="'Notifications'"></app-common-header>
-<ion-content class="wrapper"></ion-content>
+<app-common-header [title]="'Notifications'" (notifications)="getNotificationCount($event)"></app-common-header>
+<ion-content class="wrapper">
+  <ng-container *ngIf="notify.length > 0">
+    <h3 class="notificationHeader">All Notifications</h3>
+    <ion-list *ngFor="let _notify of notify">
+     <ion-item>
+      <ion-label class="notificationDtls">
+        <h2>{{_notify?.narration}}</h2>
+        <p>{{_notify?.created_dt | date:'dd/MM/YYYY hh:mma'}}</p>
+      </ion-label>
+     </ion-item>
+    </ion-list>
+  </ng-container>
+  <ng-container *ngIf="notify.length === 0">
+       <div class="noNotification">
+        <div class="noNotification_header">
+          <a>
+            <ion-icon name="notifications-outline"></ion-icon>
+           </a>
+        </div>
+        <div class="noNotification_body">
+          <h2>No Notifications</h2>
+          <p>When you have notifications,they will appear here.</p>
+        </div>
+       </div>
+  </ng-container>
+
+</ion-content>

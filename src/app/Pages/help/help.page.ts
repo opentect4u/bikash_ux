@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./help.page.scss'],
 })
 export class HelpPage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  notify: any =[];
+  constructor(
+  ) {}
+  ngOnInit() {}
+  getNotificationCount(ev){
+    console.log(ev);
+    this.notify = ev;
   }
-
 }

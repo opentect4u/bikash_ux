@@ -81,31 +81,31 @@ export class LogRegPage{
   async requestPermission(){
     /********************* Use After Integration of Api *************************/
     /***********For Mobile App************/
-   const req = await this.loader.requestPermission();
-     if(req === 'granted'){
-      this.loader.showLoading('Logging In..');
-      const options: PositionOptions = {
-        enableHighAccuracy:true
-      };
-      this.location = await this.loader.getCurrentLocation(options);
-      this.signInForm.patchValue({
-      id:0,
-      lat:this.location?.coords.latitude,
-      long:this.location?.coords.longitude
-      });
-      setTimeout(() => {
-        this.logIn();
-      }, 2000);
-    }
-    else{
-       this.loader.presentToast('you have not allowed location permission to this app yet!!','E');
-    }
+  //  const req = await this.loader.requestPermission();
+  //    if(req === 'granted'){
+  //     this.loader.showLoading('Logging In..');
+  //     const options: PositionOptions = {
+  //       enableHighAccuracy:true
+  //     };
+  //     this.location = await this.loader.getCurrentLocation(options);
+  //     this.signInForm.patchValue({
+  //     id:0,
+  //     lat:this.location?.coords.latitude,
+  //     long:this.location?.coords.longitude
+  //     });
+  //     setTimeout(() => {
+  //       this.logIn();
+  //     }, 2000);
+  //   }
+  //   else{
+  //      this.loader.presentToast('Oops!! you have not allowed location permission yet!!','E');
+  //   }
   /******End*******/
 
   /*********For Web *********/
-  //  setTimeout(() => {
-  //   this.logIn();
-  //  }, 2000);
+   setTimeout(() => {
+    this.logIn();
+   }, 2000);
    /********End*************/
    /******************** End ************************* */
   }

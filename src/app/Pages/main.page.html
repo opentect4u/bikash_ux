@@ -2,6 +2,7 @@
   <ion-tab-bar slot="bottom">
     <ng-container *ngFor="let menus of menu">
       <ion-tab-button [tab]="menus.tab"  *ngIf="menus.tab !== ''">
+        <ion-badge color="danger" mode="ios" *ngIf="menus.id === 2 && notifyCnt > 0">{{notifyCnt}}</ion-badge>
         <ion-icon [name]="menus.icon"></ion-icon>
         <ion-label>{{menus.label}}</ion-label>
       </ion-tab-button>

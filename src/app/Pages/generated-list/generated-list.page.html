@@ -52,15 +52,13 @@
                 </ion-item>
               </ion-col>
 
-              <!-- Borrower Name & Co-Borrower Name -->
-              <ion-col size="12" *ngIf="lndetails?.co_cust_name1 || lndetails?.co_cust_name2 || lndetails?.co_cust_name3">
+              <!-- Borrower Name & Co-Borrower Name (If There is any)-->
+              <ion-col size="12" *ngIf="lndetails?.joint_holder !== ' '">
                 <ion-item>
-                  <ion-label>
-                    <h2>Co-Borrower Name </h2>
+                  <ion-label class="deposit_dtls">
+                    <h2>Joint Holder Name </h2>
                     <p>
-                      {{lndetails?.co_cust_name1 ? lndetails?.co_cust_name1 + ',' : ''}}
-                      {{lndetails?.co_cust_name2 ? lndetails?.co_cust_name2 + ',' : ''}}
-                      {{lndetails?.co_cust_name3 ? lndetails?.co_cust_name3 + ',' : ''}}
+                      {{lndetails?.joint_holder ? lndetails?.joint_holder : 'N/A'}}
                     </p>
                   </ion-label>
                 </ion-item>
@@ -144,6 +142,7 @@
                  type="number"
                  inputmode="decimal"
                  placeholder="Enter Amount"
+                 (keypress)="preventNonNumeric($event)"
                  [(ngModel)]="paidAmt"
                  ></ion-input>
                 </ion-item>
@@ -268,7 +267,7 @@
               <ion-label>
                 <h2>Share amount</h2>
                 <p>
-                  {{(lndetails?.share_amt | currency:'INR')}}
+                  {{lndetails?.share_amt ? (lndetails?.share_amt | currency:'INR') : ('0' |  currency:'INR')}}
                 </p>
               </ion-label>
             </ion-item>
@@ -278,7 +277,7 @@
               <ion-label>
                 <h2>ROI(%)</h2>
                 <p>
-                  {{lndetails?.roi | percent}}
+                  {{lndetails?.roi ? lndetails?.roi + '%' : '0%'}}
                 </p>
               </ion-label>
             </ion-item>

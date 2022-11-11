@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   // apiUrl:'http://192.168.1.244:3000/api/'
-  apiUrl:'https://vermapi.opentech4u.co.in/api/'
+  apiUrl:'https://vermapi.opentech4u.co.in/api/',
+  socketUrl:'https://vermapi.opentech4u.co.in'
 };
 
 /*

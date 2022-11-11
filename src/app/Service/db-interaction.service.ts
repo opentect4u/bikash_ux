@@ -1,3 +1,4 @@
+import { NotificationService } from './notification.service';
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -7,7 +8,10 @@ import { LoaderService } from './loader.service';
   providedIn: 'root'
 })
 export class DbInteractionService {
-  constructor(private http: HttpClient,private service: LoaderService) { }
+  constructor(
+    private notifiy: NotificationService,
+    private http: HttpClient,
+    private service: LoaderService) { }
   callApi(flag,url,dt){
    if(flag > 0){
      return this.http.post(`${environment.apiUrl + url}`,dt);
@@ -22,6 +26,7 @@ export class DbInteractionService {
     this.callApi(1,'logout',{id:localStorage.getItem('id')}).pipe((map((x: any)=> x.suc))).subscribe(res =>{
       console.log('ss');
        if(res > 0){
+        this.notifiy.disconnectSocket();
         localStorage.clear();
         this.service.navigateToParicularPage('/',null);
        }

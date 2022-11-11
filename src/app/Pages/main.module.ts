@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { MainPage } from './main.page';
 import { Routes, RouterModule } from '@angular/router';
-
 const routes: Routes = [
   {
     path: '',
@@ -68,7 +67,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, IonicModule, RouterModule.forChild(routes)],
-  declarations: [MainPage],
+  imports: [
+    CommonModule,
+    IonicModule,
+    RouterModule.forChild(routes),
+  ],
+  declarations: [MainPage]
 })
 export class MainPageModule {}

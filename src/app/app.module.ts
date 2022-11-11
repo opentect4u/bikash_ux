@@ -9,11 +9,15 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { DatePipe } from '@angular/common';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+const config: SocketIoConfig = { url: `${environment.socketUrl}`, options: {transports: [ 'websocket' ], withCredentials: true}  };
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule,
     IonicModule.forRoot(),
     HttpClientModule,
+    SocketIoModule.forRoot(config),
     AppRoutingModule],
   providers: [
     DatePipe,
@@ -22,6 +26,7 @@ import { DatePipe } from '@angular/common';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
+
 
 })
 export class AppModule {}

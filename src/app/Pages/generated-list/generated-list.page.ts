@@ -1,11 +1,12 @@
-import { PopOverComponent } from './../../Common/pop-over/pop-over.component';
 /* eslint-disable @typescript-eslint/naming-convention */
+import { PopOverComponent } from './../../Common/pop-over/pop-over.component';
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { LoanDtls } from 'src/app/Models/loanDtls';
 import { DbInteractionService } from 'src/app/Service/db-interaction.service';
 import { LoaderService } from 'src/app/Service/loader.service';
 import { PopoverController } from '@ionic/angular';
+import { UtilityM } from 'src/app/Utility/utilityEvent';
 @Component({
   selector: 'app-pages-generated-list',
   templateUrl: './generated-list.page.html',
@@ -172,5 +173,8 @@ export class GeneratedListPage implements OnInit {
           this.isSubModalopen = !this.isSubModalopen;
         }
      });
+  }
+  preventNonNumeric(ev){
+    UtilityM.preventNonNumeric(ev);
   }
 }
